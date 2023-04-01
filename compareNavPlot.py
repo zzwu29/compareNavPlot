@@ -12,8 +12,10 @@ import matplotlib.pyplot as plt
 import tool_func as tf
 matplotlib.use("Qt5Agg")  # 声明使用QT5
 
-colors=['#FD6D5A', '#FEB40B', '#6DC354', '#994487', '#518CD8','#2A9D8F' ,'#45CAFF', '#B913FF', '#443295', '#F4A261', '#E76F51', '#253777',
-        '#C1C976', '#C8A9A1', '#FEC2E4', '#77CCE0', '#FFD372', '#F88078','#104FFF', '#2FD151', '#64C7B8', '#FF1038','#264653', '#E9C46A']
+# colors=['#FD6D5A', '#FEB40B', '#6DC354', '#994487', '#518CD8','#2A9D8F' ,'#45CAFF', '#B913FF', '#443295', '#F4A261', '#E76F51', '#253777',
+#         '#C1C976', '#C8A9A1', '#FEC2E4', '#77CCE0', '#FFD372', '#F88078','#104FFF', '#2FD151', '#64C7B8', '#FF1038','#264653', '#E9C46A']
+
+colors=["#023EFF", "#1AC938", "#E8000B","#8B2BE2", "#FFC400", "#00D7FF"] # bright6 in seaborn
 
 def readFromFileInCol(filename='', header=0, cols=[],type=None):
     data=np.loadtxt(filename,skiprows=header,dtype=type)
@@ -37,7 +39,7 @@ class compareNavPlot(QMainWindow):
 
     def __init__(self):
         super(compareNavPlot, self).__init__()
-        self.ui = QUiLoader().load(r"D:\tools\compareNavPlot\compareNavPlot.ui")
+        self.ui = QUiLoader().load(r"compareNavPlot.ui")
         self.ui.actionImport_File.triggered.connect(self.prepareAll)
         self.ui.actionPlot.triggered.connect(self.plotAll)
         self.ui.actionClear_Plot.triggered.connect(self.clearPlot)
@@ -192,9 +194,9 @@ class compareNavPlot(QMainWindow):
         self.graphic_scene_fig_a = QGraphicsScene()
         self.graphic_scene_fig_a.addWidget(self.graphic_content_fig_a)  # 把图形放到QGraphicsScene中，注意：图形是作为一个QWidget放到放到QGraphicsScene中的
         self.ui.fig_a.setScene(self.graphic_scene_fig_a)  # 把QGraphicsScene放入QGraphicsView
-        self.graphic_content_fig_a.axes.plot(self.imuData[:,0],self.imuData[:,4],color=colors[3],linewidth=1,label='x')
-        self.graphic_content_fig_a.axes.plot(self.imuData[:,0],self.imuData[:,5],color=colors[4],linewidth=1,label='y')
-        self.graphic_content_fig_a.axes.plot(self.imuData[:,0],self.imuData[:,6],color=colors[5],linewidth=1,label='z')
+        self.graphic_content_fig_a.axes.plot(self.imuData[:,0],self.imuData[:,4],color=colors[0],linewidth=1,label='x')
+        self.graphic_content_fig_a.axes.plot(self.imuData[:,0],self.imuData[:,5],color=colors[1],linewidth=1,label='y')
+        self.graphic_content_fig_a.axes.plot(self.imuData[:,0],self.imuData[:,6],color=colors[2],linewidth=1,label='z')
         self.graphic_content_fig_a.axes.legend(ncol=3,numpoints=5, markerscale=2, handlelength=3,frameon=False)
         self.graphic_content_fig_a.axes.set_xlabel('Times (s)')
         self.graphic_content_fig_a.axes.set_ylabel('Acce (m/s2)')
@@ -208,9 +210,9 @@ class compareNavPlot(QMainWindow):
         self.graphic_scene_fig_bl = QGraphicsScene()
         self.graphic_scene_fig_bl.addWidget(self.graphic_content_fig_bl)  # 把图形放到QGraphicsScene中，注意：图形是作为一个QWidget放到放到QGraphicsScene中的
         self.ui.fig_bl.setScene(self.graphic_scene_fig_bl)  # 把QGraphicsScene放入QGraphicsView
-        self.graphic_content_fig_bl.axes.plot(self.ResultBlh[:,1]/math.pi*180,self.ResultBlh[:,0]/math.pi*180,color=colors[6],linewidth=1,label='Cal')
+        self.graphic_content_fig_bl.axes.plot(self.ResultBlh[:,1]/math.pi*180,self.ResultBlh[:,0]/math.pi*180,color=colors[0],linewidth=1,label='Cal')
         if len(self.RefFile)>0:
-            self.graphic_content_fig_bl.axes.plot(self.RefBlh[:,1]/math.pi*180,self.RefBlh[:,0]/math.pi*180,color=colors[7],linewidth=1,label='Ref')
+            self.graphic_content_fig_bl.axes.plot(self.RefBlh[:,1]/math.pi*180,self.RefBlh[:,0]/math.pi*180,color=colors[1],linewidth=1,label='Ref')
         self.graphic_content_fig_bl.axes.legend(ncol=2,numpoints=5, markerscale=2, handlelength=3,frameon=False)
         self.graphic_content_fig_bl.axes.set_xlabel('Lon (deg)')
         self.graphic_content_fig_bl.axes.set_ylabel('Lat (deg)')
@@ -221,9 +223,9 @@ class compareNavPlot(QMainWindow):
         self.graphic_scene_fig_h = QGraphicsScene()
         self.graphic_scene_fig_h.addWidget(self.graphic_content_fig_h)  # 把图形放到QGraphicsScene中，注意：图形是作为一个QWidget放到放到QGraphicsScene中的
         self.ui.fig_h.setScene(self.graphic_scene_fig_h)  # 把QGraphicsScene放入QGraphicsView
-        self.graphic_content_fig_h.axes.plot(self.ResultDataFloat[:,0],self.ResultBlh[:,2],color=colors[8],linewidth=1,label='Cal')
+        self.graphic_content_fig_h.axes.plot(self.ResultDataFloat[:,0],self.ResultBlh[:,2],color=colors[0],linewidth=1,label='Cal')
         if len(self.RefFile)>0:
-            self.graphic_content_fig_h.axes.plot(self.RefDataFloat[:,0],self.RefBlh[:,2],color=colors[9],linewidth=1,label='Ref')
+            self.graphic_content_fig_h.axes.plot(self.RefDataFloat[:,0],self.RefBlh[:,2],color=colors[1],linewidth=1,label='Ref')
         self.graphic_content_fig_h.axes.legend(ncol=2,numpoints=5, markerscale=2, handlelength=3,frameon=False)
         self.graphic_content_fig_h.axes.set_xlabel('Times (s)')
         self.graphic_content_fig_h.axes.set_ylabel('Height (m)')
@@ -237,10 +239,10 @@ class compareNavPlot(QMainWindow):
         self.graphic_scene_fig_state = QGraphicsScene()
         self.graphic_scene_fig_state.addWidget(self.graphic_content_fig_state)  # 把图形放到QGraphicsScene中，注意：图形是作为一个QWidget放到放到QGraphicsScene中的
         self.ui.fig_state.setScene(self.graphic_scene_fig_state)  # 把QGraphicsScene放入QGraphicsView
-        self.graphic_content_fig_state.axes.plot(self.StateDataFloat[:,0],self.StateDataFloat[:,1],color=colors[10],linewidth=1,label='Nsat')
+        self.graphic_content_fig_state.axes.plot(self.StateDataFloat[:,0],self.StateDataFloat[:,1],color=colors[0],linewidth=1,label='Nsat')
         self.graphic_content_fig_state.axes.set_xlim(self.StateDataFloat[0,0],self.StateDataFloat[-1,0])
         
-        self.graphic_content_fig_state.axes.plot(self.StateDataFloat[:,0],self.StateDataFloat[:,2],color=colors[11],linewidth=1,label='PDOP')
+        self.graphic_content_fig_state.axes.plot(self.StateDataFloat[:,0],self.StateDataFloat[:,2],color=colors[1],linewidth=1,label='PDOP')
         self.graphic_content_fig_state.axes.set_xlim(self.StateDataFloat[0,0],self.StateDataFloat[-1,0])
         
         self.graphic_content_fig_state.axes1=self.graphic_content_fig_state.axes.twinx()
@@ -251,7 +253,7 @@ class compareNavPlot(QMainWindow):
         self.graphic_content_fig_state.axes1.spines['right'].set_visible(False)
         self.graphic_content_fig_state.axes1.set_ylim(0,1)
         self.graphic_content_fig_state.axes1.set_xlim(self.StateDataFloat[0,0],self.StateDataFloat[-1,0])
-        self.graphic_content_fig_state.axes1.legend(ncol=2,numpoints=5, markerscale=2, handlelength=3,frameon=False)
+        self.graphic_content_fig_state.axes1.legend(bbox_to_anchor=(0.95,0.9),ncol=2,numpoints=5, markerscale=2, handlelength=3,frameon=False)
         self.graphic_content_fig_state.axes.legend(ncol=2,numpoints=5, markerscale=2, handlelength=3,frameon=False)
         self.graphic_content_fig_state.axes.set_xlabel('Times (s)')
         self.graphic_content_fig_state.axes.set_xlim(self.StateDataFloat[0,0],self.StateDataFloat[-1,0])
@@ -264,9 +266,9 @@ class compareNavPlot(QMainWindow):
         self.graphic_scene_fig_dp = QGraphicsScene()
         self.graphic_scene_fig_dp.addWidget(self.graphic_content_fig_dp)  # 把图形放到QGraphicsScene中，注意：图形是作为一个QWidget放到放到QGraphicsScene中的
         self.ui.fig_dp.setScene(self.graphic_scene_fig_dp)  # 把QGraphicsScene放入QGraphicsView
-        self.graphic_content_fig_dp.axes.plot(self.dp[:,0],self.dp[:,1],color=colors[13],linewidth=1,label='e')
-        self.graphic_content_fig_dp.axes.plot(self.dp[:,0],self.dp[:,2],color=colors[14],linewidth=1,label='n')
-        self.graphic_content_fig_dp.axes.plot(self.dp[:,0],self.dp[:,3],color=colors[15],linewidth=1,label='u')
+        self.graphic_content_fig_dp.axes.plot(self.dp[:,0],self.dp[:,1],color=colors[0],linewidth=1,label='e')
+        self.graphic_content_fig_dp.axes.plot(self.dp[:,0],self.dp[:,2],color=colors[1],linewidth=1,label='n')
+        self.graphic_content_fig_dp.axes.plot(self.dp[:,0],self.dp[:,3],color=colors[2],linewidth=1,label='u')
         self.graphic_content_fig_dp.axes.legend(ncol=4,numpoints=5, markerscale=2, handlelength=3,frameon=False)
         self.graphic_content_fig_dp.axes.set_xlabel('Times (s)')
         self.graphic_content_fig_dp.axes.set_ylabel('Pos (m)')
@@ -278,9 +280,9 @@ class compareNavPlot(QMainWindow):
         self.graphic_scene_fig_dv = QGraphicsScene()
         self.graphic_scene_fig_dv.addWidget(self.graphic_content_fig_dv)  # 把图形放到QGraphicsScene中，注意：图形是作为一个QWidget放到放到QGraphicsScene中的
         self.ui.fig_dv.setScene(self.graphic_scene_fig_dv)  # 把QGraphicsScene放入QGraphicsView
-        self.graphic_content_fig_dv.axes.plot(self.dv[:,0],self.dv[:,1],color=colors[16],linewidth=1,label='e')
-        self.graphic_content_fig_dv.axes.plot(self.dv[:,0],self.dv[:,2],color=colors[17],linewidth=1,label='n')
-        self.graphic_content_fig_dv.axes.plot(self.dv[:,0],self.dv[:,3],color=colors[18],linewidth=1,label='u')
+        self.graphic_content_fig_dv.axes.plot(self.dv[:,0],self.dv[:,1],color=colors[0],linewidth=1,label='e')
+        self.graphic_content_fig_dv.axes.plot(self.dv[:,0],self.dv[:,2],color=colors[1],linewidth=1,label='n')
+        self.graphic_content_fig_dv.axes.plot(self.dv[:,0],self.dv[:,3],color=colors[2],linewidth=1,label='u')
         self.graphic_content_fig_dv.axes.legend(ncol=4,numpoints=5, markerscale=2, handlelength=3,frameon=False)
         self.graphic_content_fig_dv.axes.set_xlabel('Times (s)')
         self.graphic_content_fig_dv.axes.set_ylabel('Vel (m/s)')
@@ -292,9 +294,9 @@ class compareNavPlot(QMainWindow):
         self.graphic_scene_fig_da = QGraphicsScene()
         self.graphic_scene_fig_da.addWidget(self.graphic_content_fig_da)  # 把图形放到QGraphicsScene中，注意：图形是作为一个QWidget放到放到QGraphicsScene中的
         self.ui.fig_da.setScene(self.graphic_scene_fig_da)  # 把QGraphicsScene放入QGraphicsView
-        self.graphic_content_fig_da.axes.plot(self.da[:,0],self.da[:,1],color=colors[19],linewidth=1,label='Pitch')
-        self.graphic_content_fig_da.axes.plot(self.da[:,0],self.da[:,2],color=colors[20],linewidth=1,label='Roll')
-        self.graphic_content_fig_da.axes.plot(self.da[:,0],self.da[:,3],color=colors[21],linewidth=1,label='Yaw')
+        self.graphic_content_fig_da.axes.plot(self.da[:,0],self.da[:,1],color=colors[0],linewidth=1,label='Pitch')
+        self.graphic_content_fig_da.axes.plot(self.da[:,0],self.da[:,2],color=colors[1],linewidth=1,label='Roll')
+        self.graphic_content_fig_da.axes.plot(self.da[:,0],self.da[:,3],color=colors[2],linewidth=1,label='Yaw')
         self.graphic_content_fig_da.axes.legend(ncol=4,numpoints=5, markerscale=2, handlelength=3,frameon=False)
         self.graphic_content_fig_da.axes.set_xlabel('Times (s)')
         self.graphic_content_fig_da.axes.set_ylabel('Att (deg)')
